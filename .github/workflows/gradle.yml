@@ -14,8 +14,8 @@ jobs:
       packages: write
     env:
       PLUGIN_PATH: plugin
-      USERNAME: ${{ github.actor }}
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # USERNAME: ${{ github.actor }}
+      # TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout server
@@ -40,10 +40,10 @@ jobs:
         with:
           arguments: jar
 
-      - name: Publish server
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: publish
+      # - name: Publish server
+      #   uses: gradle/gradle-build-action@v2
+      #   with:
+      #     arguments: publish
 
       - name: Setup plugin
         run: cd ${{ env.PLUGIN_PATH }} && chmod +x gradlew && mkdir lib && mv ../grasscutter-*.jar lib
@@ -54,11 +54,11 @@ jobs:
           arguments: jar
           build-root-directory: ${{ env.PLUGIN_PATH }}
 
-      - name: Publish plugin
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: publish
-          build-root-directory: ${{ env.PLUGIN_PATH }}
+      # - name: Publish plugin
+      #   uses: gradle/gradle-build-action@v2
+      #   with:
+      #     arguments: publish
+      #     build-root-directory: ${{ env.PLUGIN_PATH }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
