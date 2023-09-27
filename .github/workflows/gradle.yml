@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
 
 env:
-  USERNAME: ${{ github.actor }}
-  TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PLUGIN_PATH: plugin
 
 permissions:
@@ -15,11 +13,13 @@ permissions:
   packages: write
 
 jobs:
+
   build:
 
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout server
         uses: actions/checkout@v4
         with:
@@ -40,7 +40,7 @@ jobs:
       - name: Build server
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
+          arguments: jar
 
       - name: Publish server
         uses: gradle/gradle-build-action@v2
@@ -53,7 +53,7 @@ jobs:
       - name: Build plugin
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
+          arguments: jar
           build-root-directory: ${{ env.PLUGIN_PATH }}
 
       - name: Publish plugin
