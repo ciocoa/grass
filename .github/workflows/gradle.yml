@@ -1,0 +1,90 @@
+name: Gradle
+
+on:
+  pull_request:
+    branches: [ 'origin' ]
+  workflow_dispatch:
+
+env:
+  USERNAME: ${{ github.actor }}
+  TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PLUGIN_PATH: plugin
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize
+        run: git checkout origin
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+
+      - name: Publish packages
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publish
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: grasscutter
+          path: grasscutter-*.jar
+
+  plugin:
+
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout
+        run: git clone https://github.com/jie65535/gc-opencommand-plugin.git ${{ env.PLUGIN_PATH }} --depth=1
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: grasscutter
+
+      - name: Setup lib
+        run: cd ${{ env.PLUGIN_PATH }} && chmod +x gradlew && mkdir lib && mv ../grasscutter-*.jar lib
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+          build-root-directory: ${{ env.PLUGIN_PATH }}
+
+      - name: Publish packages
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publish
+          build-root-directory: ${{ env.PLUGIN_PATH }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: opencommand
+          path: ${{ env.PLUGIN_PATH }}/opencommand-*.jar
