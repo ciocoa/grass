@@ -5,21 +5,19 @@ on:
     branches: [ 'origin' ]
   workflow_dispatch:
 
-env:
-  PLUGIN_PATH: plugin
-
-permissions:
-  contents: read
-  packages: write
-
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      PLUGIN_PATH: plugin
+      USERNAME: ${{ github.actor }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-
       - name: Checkout server
         uses: actions/checkout@v4
         with:
