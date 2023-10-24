@@ -20,7 +20,7 @@ services:
   serve:
     depends_on:
       - mongo
-    image: ghcr.io/ciocoa/grasscutter
+    image: kalts/grass # ghcr.io/ciocoa/grass
     restart: always
     ports:
       - "443:443"
@@ -32,7 +32,8 @@ services:
       GC_LANGUAGE: zh_CN
       GC_ACCESS_ADDRESS: 127.0.0.1
       GC_BIND_PORT: 443
-      GC_AUTO_CREATE: true
+      GC_AUTO_CREATE: "true"
       GC_ENABLE_CONSOLE: "false"
       GC_MONGODB_URL: mongodb://root:123456@mongo:27017
+
 ```
