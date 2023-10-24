@@ -4,7 +4,7 @@ services:
     restart: always
     ports:
       - 80:80
-      - 443:443
+      # - 443:443
     volumes:
       - ./templates:/etc/nginx/templates
     environment:
@@ -30,6 +30,7 @@ services:
     # ports:
     #   - "8081:8081"
     environment:
+      ME_CONFIG_SITE_BASEURL: /express/
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: 123456
       ME_CONFIG_MONGODB_URL: mongodb://root:123456@mongo:27017
@@ -40,7 +41,7 @@ services:
     image: kalts/grass # ghcr.io/ciocoa/grass
     restart: always
     ports:
-    #   - "443:443"
+      - "443:443"
       - "22102:22102/udp"
     volumes:
       - ./plugins:/plugins
