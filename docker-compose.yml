@@ -9,6 +9,10 @@ services:
       - ./templates:/etc/nginx/templates
     environment:
       TZ: Asia/Shanghai
+    logging:
+      options:
+        max-size: 20m
+        max-file: 1
 
   mongo:
     image: mongo
@@ -21,6 +25,10 @@ services:
       TZ: Asia/Shanghai
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
+    logging:
+      options:
+        max-size: 20m
+        max-file: 1
 
   express:
     depends_on:
@@ -28,12 +36,16 @@ services:
     image: mongo-express
     restart: always
     # ports:
-    #   - "8081:8081"
+    #   - 8081:8081
     environment:
       ME_CONFIG_SITE_BASEURL: /express/
       ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: 123456
+      ME_CONFIG_BASICAUTH_PASSWORD: grass123456
       ME_CONFIG_MONGODB_URL: mongodb://root:123456@mongo:27017
+    logging:
+      options:
+        max-size: 20m
+        max-file: 1
 
   serve:
     depends_on:
@@ -41,8 +53,8 @@ services:
     image: kalts/grass # ghcr.io/ciocoa/grass
     restart: always
     ports:
-      - "443:443"
-      - "22102:22102/udp"
+      - 443:443
+      - 22102:22102/udp
     volumes:
       - ./plugins:/plugins
     environment:
@@ -53,3 +65,7 @@ services:
       GC_AUTO_CREATE: "true"
       GC_ENABLE_CONSOLE: "false"
       GC_MONGODB_URL: mongodb://root:123456@mongo:27017
+    logging:
+      options:
+        max-size: 20m
+        max-file: 1
