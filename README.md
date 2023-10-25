@@ -15,6 +15,7 @@ services:
     volumes:
       - ./db:/data/db
     environment:
+      TZ: Asia/Shanghai
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
   serve:
