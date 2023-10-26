@@ -2,23 +2,23 @@
 
 if [ $GC_TZ ] && [ $GC_TZ != "false" ] && [ ! -f "/etc/timezone" ]; then
 
-echo ">> Set timezone..."
+echo ">> Setting timezone..."
 
-cp /usr/share/zoneinfo/$GC_TZ /etc/localtime
+ln -s /usr/share/zoneinfo/$GC_TZ /etc/localtime
 
 echo $GC_TZ > /etc/timezone
 
 fi
 
-echo ">> Set the plugin..."
-
 if [ ! -d "./plugins/" ]; then
+
+echo ">> Setting plugins..."
 
 mkdir plugins
 
-fi
-
 mv opencommand.jar ./plugins/
+
+fi
 
 if [ ! -f "./keystore.p12" ]; then
 
@@ -81,13 +81,9 @@ rm -rf certs
 
 fi
 
-echo ">> Clean up redundant files..."
-
-apk del openssl tzdata
-
 if [ ! -f "./config.json" ]; then
 
-echo ">> Init configuration..."
+echo ">> Generating configuration and configure..."
 
 java -jar grasscutter.jar
 

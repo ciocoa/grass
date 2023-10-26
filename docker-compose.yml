@@ -40,7 +40,7 @@ services:
     environment:
       ME_CONFIG_SITE_BASEURL: /express/
       ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: grass123456
+      ME_CONFIG_BASICAUTH_PASSWORD: 123456
       ME_CONFIG_MONGODB_URL: mongodb://root:123456@mongo:27017
     logging:
       options:

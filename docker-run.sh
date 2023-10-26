@@ -3,13 +3,13 @@
 PLUGIN_PATH=/plugins
 RESOURCES_PATH=/resources
 
-echo ">> Init dependencies..."
+echo ">> Setting dependencies..."
 
 cd /tmp/
 
 apk -U --no-cache add openjdk17-jre openssl tzdata
 
-echo ">> Pull the resources..."
+echo ">> Setting resources..."
 
 mv grasscutter-*.jar /grasscutter.jar
 
@@ -27,4 +27,4 @@ rm -rf *
 
 ls -la / && ls -la $RESOURCES_PATH/
 
-echo ">> Done."
+echo ">> Done..."
