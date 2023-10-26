@@ -16,6 +16,10 @@ echo ">> Setting plugins..."
 
 mkdir plugins
 
+fi
+
+if [ -f "./opencommand.jar" ]; then
+
 mv opencommand.jar ./plugins/
 
 fi
