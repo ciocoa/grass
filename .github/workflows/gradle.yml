@@ -41,22 +41,18 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Download Handbook
-        run: wget ${{ vars.HANDBOOK }} -P src/main/resources/html/
+      # - name: Download Handbook
+      #  run: wget ${{ vars.HANDBOOK }} -P src/main/resources/html/
 
       - name: Execute Gradle build
-        run: ./gradlew -PskipHandbook=1 && ./gradlew jar -PskipHandbook=1
+        run: ./gradlew jar -PskipHandbook=1
 
-      - name: Setup lib
+      - name: Build plugin
         run: |
           cd ${{ vars.PLUGIN_PATH }}
           chmod +x gradlew
           mkdir lib
           cp ../*.jar lib
-
-      - name: Build plugin
-        run: |
-          cd ${{ vars.PLUGIN_PATH }}
           ./gradlew jar
 
       - name: Upload artifact
